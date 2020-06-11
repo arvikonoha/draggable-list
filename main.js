@@ -78,12 +78,12 @@ questionForm.addEventListener("submit", (event) => {
   const listContainer = document.getElementById("question-holder");
 
   // get the value of input
-  const question = document.getElementById("question").value;
+  const question = document.getElementById("question");
 
   // create new element to be appended to question container
   let newQuestion = document.createElement("div");
   newQuestion.className = "list-item card"; // classes used
-  newQuestion.textContent = `${question}`; // text
+  newQuestion.textContent = `${question.value}`; // text
   newQuestion.setAttribute("draggable", true); // to make it draggable
   newQuestion.setAttribute("dropzone", true); // so that other questions can be dropped on it
 
@@ -92,4 +92,6 @@ questionForm.addEventListener("submit", (event) => {
 
   addDragListeners();
   // to make sure that new element is also given a drag event listener
+
+  question.value = "";
 });
