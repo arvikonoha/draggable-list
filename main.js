@@ -1,20 +1,29 @@
-const draggableItems = document.querySelectorAll(".list-item");
+function addDragListeners() {
+  const draggableItems = document.querySelectorAll(".list-item");
 
-[].forEach.call(draggableItems, (item) => {
-  // for the source of data
-  item.addEventListener("dragstart", dragstarthandle, false);
+  // kinda redundant use only for small list of items
+  [].forEach.call(draggableItems, (item) => {
+    // for the source of data
 
-  // for destination
-  item.addEventListener("dragenter", dragenterhandle, false);
-  item.addEventListener("dragover", dragoverhandle, false);
-  item.addEventListener("dragleave", dragleavehandle, false);
+    if (!item.dataset.el) {
+      item.dataset.el = "listening";
+      item.addEventListener("dragstart", dragstarthandle, false);
 
-  // when source is dropped
-  item.addEventListener("dragend", dragendhandle, false);
+      // for destination
+      item.addEventListener("dragenter", dragenterhandle, false);
+      item.addEventListener("dragover", dragoverhandle, false);
+      item.addEventListener("dragleave", dragleavehandle, false);
 
-  // when destination receives the data
-  item.addEventListener("drop", drophandle, false);
-});
+      // when source is dropped
+      item.addEventListener("dragend", dragendhandle, false);
+
+      // when destination receives the data
+      item.addEventListener("drop", drophandle, false);
+    }
+  });
+}
+
+addDragListeners();
 
 let dragElSrc = null;
 
@@ -59,3 +68,28 @@ function drophandle(event) {
   }
   return false;
 }
+
+const questionForm = document.getElementById("question-form");
+
+questionForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  // get the container for questions
+  const listContainer = document.getElementById("question-holder");
+
+  // get the value of input
+  const question = document.getElementById("question").value;
+
+  // create new element to be appended to question container
+  let newQuestion = document.createElement("div");
+  newQuestion.className = "list-item card"; // classes used
+  newQuestion.textContent = `${question}`; // text
+  newQuestion.setAttribute("draggable", true); // to make it draggable
+  newQuestion.setAttribute("dropzone", true); // so that other questions can be dropped on it
+
+  listContainer.appendChild(newQuestion);
+  // finally add the new question to the container
+
+  addDragListeners();
+  // to make sure that new element is also given a drag event listener
+});

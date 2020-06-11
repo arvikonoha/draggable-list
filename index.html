@@ -7,7 +7,15 @@
     <title>Draggable list</title>
   </head>
   <body>
-    <div class="list-container container">
+    <form action="POST" id="question-form">
+      <input
+        type="text"
+        name="question"
+        id="question"
+        placeholder="Enter the question"
+      />
+    </form>
+    <div id="question-holder" class="list-container container">
       <div class="list-item card" draggable="true" dropzone="true">
         How are you?
       </div>
